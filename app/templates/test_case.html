@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test case &middot; Test telemetry</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <a class="back-link" id="backLink" href="/">&larr; Back to dashboard</a>
+
+  <div id="statusMsg" class="status"></div>
+
+  <div id="loadingState" class="empty">Loading test case&hellip;</div>
+
+  <div id="tcContent" style="display:none">
+    <header style="border-bottom:none;padding-bottom:0;margin-bottom:16px;display:block;">
+      <h1 class="tc-title" id="tcTitle"></h1>
+      <p class="tc-nodeid" id="tcNodeid"></p>
+    </header>
+
+    <div class="summary" id="tcSummary"></div>
+
+    <div class="grid2">
+      <div class="panel full">
+        <div class="panel-header-row">
+          <div>
+            <h2>Duration trend</h2>
+            <p class="sub">Execution time for this test, across the runs it appeared in</p>
+          </div>
+          <div class="threshold-row" title="A test is flagged flaky once its outcome changes at least this many times across its full run history.">
+            <label for="flakyThreshold">Flaky at</label>
+            <input type="number" id="flakyThreshold" min="1" step="1" value="1">
+            <span>+ flips</span>
+          </div>
+        </div>
+        <div class="chart-box"><canvas id="chartTcDuration"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="panel full">
+        <h2>Run history &amp; logs</h2>
+        <p class="sub" id="logAvailabilityNote">Every run, in order, with this test's outcome and duration &mdash; click a row to load its captured log</p>
+        <div class="heatmap-wrap">
+          <table class="history" id="historyTable"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="/static/chart.umd.js"></script>
+<script src="/static/testcase-utils.js"></script>
+<script src="/static/test_case.js"></script>
+</body>
+</html>

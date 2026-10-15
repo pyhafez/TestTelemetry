@@ -1,0 +1,17 @@
+services:
+  dashboard:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      # Uncomment to let the remote-source loader fetch from specific
+      # private/internal CIDR ranges (e.g. your test-server LAN) despite
+      # the SSRF guard's default private-address block:
+      # - ALLOWED_PRIVATE_NETWORKS=192.168.48.0/24
+      #
+      # Or disable the private-address check entirely (only if this
+      # dashboard itself runs inside your trusted network):
+      - ALLOW_PRIVATE_SOURCES=true
+    restart: unless-stopped

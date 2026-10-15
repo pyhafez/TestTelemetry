@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test telemetry</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div>
+      <h1>Test telemetry</h1>
+      <p>Upload a test_history.db, or point at a remote copy of the same file.</p>
+    </div>
+    <div class="controls">
+      <select id="sourcePicker"><option value="">Select a source&hellip;</option></select>
+      <label class="file-label">
+        Upload .db
+        <input type="file" id="fileInput" accept=".db,.sqlite,.sqlite3">
+      </label>
+      <div class="remote-row">
+        <input type="text" id="remoteUrl" placeholder="https://example.com/test_history.db">
+        <button id="loadRemoteBtn">Load URL</button>
+      </div>
+      <div class="threshold-row" title="A test is flagged flaky once its outcome changes at least this many times across its full run history.">
+        <label for="flakyThreshold">Flaky at</label>
+        <input type="number" id="flakyThreshold" min="1" step="1" value="1">
+        <span>+ flips</span>
+      </div>
+    </div>
+  </header>
+
+  <div id="statusMsg" class="status"></div>
+
+  <div class="empty" id="emptyState">
+    No source loaded yet. Upload a file or load one from a URL above.
+  </div>
+
+  <div id="dash" style="display:none">
+    <div class="summary" id="summary"></div>
+
+    <div class="grid2">
+      <div class="panel">
+        <h2>Run outcomes</h2>
+        <p class="sub">Passed / failed / skipped per run</p>
+        <div class="chart-box"><canvas id="chartOutcomes"></canvas></div>
+      </div>
+      <div class="panel">
+        <h2>Suite duration</h2>
+        <p class="sub">Total execution time per run</p>
+        <div class="chart-box"><canvas id="chartDuration"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="panel">
+        <h2>Duration spread</h2>
+        <p class="sub">Distribution of individual test durations, all runs</p>
+        <div class="chart-box"><canvas id="chartHist"></canvas></div>
+      </div>
+      <div class="panel">
+        <h2>Slowest tests</h2>
+        <p class="sub">Duration trend for the 6 slowest tests</p>
+        <div class="chart-box"><canvas id="chartSlow"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="panel full">
+        <div class="panel-header-row">
+          <div>
+            <h2>Test outcome grid</h2>
+            <p class="sub">Every parametrized test against every run &mdash; click a row to open its full history and logs</p>
+          </div>
+          <div class="grid-controls">
+            <label for="heatmapLimit">Show</label>
+            <select id="heatmapLimit">
+              <option value="5">Last 5 runs</option>
+              <option value="10" selected>Last 10 runs</option>
+              <option value="20">Last 20 runs</option>
+              <option value="50">Last 50 runs</option>
+              <option value="all">All runs</option>
+            </select>
+            <span class="range-note" id="heatmapRangeNote"></span>
+          </div>
+        </div>
+        <div class="heatmap-wrap" id="heatmap"></div>
+        <div class="legend">
+          <span><span class="swatch pass"></span>Passed</span>
+          <span><span class="swatch fail"></span>Failed</span>
+          <span><span class="swatch skip"></span>Skipped</span>
+        </div>
+      </div>
+    </div>
+
+    <footer id="footerNote"></footer>
+  </div>
+
+</div>
+
+<script src="/static/chart.umd.js"></script>
+<script src="/static/testcase-utils.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>
